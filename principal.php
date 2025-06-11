@@ -93,8 +93,6 @@
                 <?php endforeach; ?>
             </li>
         </ul>
-
     </nav>
-
 </body>
 </html>
