@@ -43,14 +43,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Alterar Usuário</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="estilo.css">
     
     <!-- Certifique-se de que o JavaScript está sendo carregado corretamente -->
     <script src="scripts.js"></script>
+    <script src="ValidaCampos.js"></script>
 </head>
 <body>
-    <h2>Alterar Usuário</h2>
-
+    <h2>Alterar Produto</h2>
+    <a class="btn-voltar" href="principal.php">Voltar</a>
     <!-- Formulário para buscar produto pelo ID ou Nome -->
     <form action="alterar_produto.php" method="POST">
         <label for="busca_produto">Digite o ID ou Nome do produto:</label>
@@ -76,14 +77,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <label for="qtde">Quantidade em Estoque:</label>
             <input type="text" id="qtde" name="qtde" value="<?= htmlspecialchars($produto['qtde']) ?>" required>
 
-            <label for="qtde">Preço:</label>
-            <input type="text" id="qtde" name="qtde" value="<?= htmlspecialchars($produto['valor_unit']) ?>" required>
+            <label for="valor_unit">Preço:</label>
+            <input type="text" id="valor_unit" name="valor_unit" value="<?= htmlspecialchars($produto['valor_unit']) ?>" required>
 
             <button type="submit">Alterar</button>
             <button type="reset">Cancelar</button>
         </form>
     <?php endif; ?>
-
-    <a href="principal.php">Voltar</a>
 </body>
 </html>

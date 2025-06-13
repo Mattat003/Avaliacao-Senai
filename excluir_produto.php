@@ -39,11 +39,11 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 <head>
     <meta charset="UTF-8">
     <title>Excluir Produto</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="estilo.css">    
 </head>
 <body>
     <h2>Excluir Produto</h2>
-
+    <a class="btn-voltar" href="principal.php">Voltar</a>
     <?php if (!empty($produtos)): ?>
         <table border="1">
             <tr>
@@ -62,7 +62,8 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
                     <td><?= htmlspecialchars($produto['qtde']) ?></td>
                     <td><?= htmlspecialchars($produto['valor_unit']) ?></td>
                     <td>
-                        <a href="excluir_produto.php?id=<?= htmlspecialchars($produto['id_produto']) ?>" onclick="return confirm('Tem certeza que deseja excluir este produto?')">Excluir</a>
+                    <a class="btn-excluir" href="excluir_produto.php?id=<?= htmlspecialchars($produto['id_produto']) ?>" onclick="return confirm('Tem certeza que deseja excluir este produto?')">Excluir</a>
+
                     </td>
                 </tr>
             <?php endforeach; ?>
@@ -70,7 +71,5 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
     <?php else: ?>
         <p>Nenhum produto encontrado.</p>
     <?php endif; ?>
-
-    <a href="principal.php">Voltar</a>
 </body>
 </html>

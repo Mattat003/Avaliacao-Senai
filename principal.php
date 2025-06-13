@@ -63,13 +63,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Principal</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="estilo.css">
     <script src="scripts.js"></script>
 </head>
 <body>
     <header>
         <div class="saudacao">
             <h2>Bem Vindo, <?php echo $_SESSION["usuario"]; ?>! Perfil:<?php echo $nome_perfil; ?></h2>
+            <br/>
+            <h3>Matheus Leal</h3>
         </div>
 
         <div class="logout">
@@ -94,5 +96,8 @@
             </li>
         </ul>
     </nav>
+    <div class="gif">
+        <img src="tenna.gif" alt="Senhor (AN)Tenna" title="Senhor (AN)Tenna = Feito por Matheus Leal">
+    </div>
 </body>
 </html>

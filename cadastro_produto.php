@@ -35,7 +35,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Cadastrar Produto</title>
-        <link rel="stylesheet" href="styles.css">
+        <link rel="stylesheet" href="estilo.css">
+        <script src="ValidaCampos.js"></script>
     </head>
     <body>
         <h2>Cadastrar Produto</h2>
@@ -55,6 +56,6 @@
             <button type="submit">Salvar</button>
             <button type="reset">Cancelar</button>
         </form>
-        <a href="principal.php">Voltar</a>
+        <a class="btn-voltar" href="principal.php">Voltar</a>
     </body>
 </html>

@@ -1,81 +1,73 @@
 <?php
-    session_start();
-    require_once "conexao.php";
+require_once 'conexao.php';
 
-    $produtos = []; //INICIALIZA A VARIAVEL PARA EVITAR ERROS
+$busca = $_GET['busca'] ?? '';
+$produtos = [];
 
-    //SE O FORMULARIO FOR ENVIADO, BUSCA O produto PELO ID OU NOME
-
-    if($_SERVER["REQUEST_METHOD"]=="post"){
-        $busca = trim($_POST['busca']);
-
-        //VERIFICA SE A BUSCA É UM NUMERO(ID) OU UM NOME
-        if(is_numeric($busca)){
-            $sql = "SELECT * FROM produto WHERE id_produto = :busca ORDER BY nome_prod ASC";
-            $stmt = $pdo->prepare($sql);
-            $stmt -> bindParam(':busca', $busca, PDO::PARAM_INT);
-        }else{
-            $sql = "SELECT * FROM produto WHERE nome_prod LIKE :busca_nome ORDER BY nome_prod ASC";
-            $stmt = $pdo->prepare($sql);
-            $stmt -> bindValue(':busca_nome', "%$busca%", PDO::PARAM_STR);
+try {
+    if (!empty($busca)) {
+        if (ctype_digit($busca)) {
+            // Se for número puro, buscar apenas por ID
+            $stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = :id");
+            $stmt->bindValue(':id', (int)$busca, PDO::PARAM_INT);
+        } else {
+            // Se for texto, buscar por nome (sem tocar no ID)
+            $stmt = $pdo->prepare("SELECT * FROM produto WHERE nome_prod LIKE :nome");
+            $stmt->bindValue(':nome', '%' . $busca . '%');
         }
-    }else{
-        $sql = "SELECT * FROM produto ORDER BY nome_prod ASC";
-        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
+    } else {
+        // Sem busca: mostrar todos
+        $stmt = $pdo->query("SELECT * FROM produto");
     }
-    $stmt -> execute();
+
     $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erro ao buscar produtos: " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
-<html lang="pt-BR">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Buscar Produto</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body>
-        <h2>Lista de Produtos</h2>
-        <!--FORMULARIO PARA BUSCAR PRODUTOS-->
-        <form action="buscar_produto.php" method="post">
-            <label for="busca">Digite o ID ou NOME(opcional):</label>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Produto</title>
+    <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
 
-            <input type="text" id="busca" name="busca">
-            <button type="submit">Buscar</button>
-        </form>
+    <h1>Buscar Produto</h1>
+    <a class="btn-voltar" href="principal.php">Voltar</a>
+    <form method="GET" action="buscar_produto.php">
+        <input type="text" name="busca" placeholder="Digite o ID ou nome do produto..." value="<?= htmlspecialchars($busca) ?>">
+        <input type="submit" value="Buscar">
+    </form>
 
-        <?php if(!empty($produtos)): ?>
-            <table border="1">
+    <?php if (count($produtos) > 0): ?>
+        <table>
+            <thead>
                 <tr>
                     <th>ID</th>
                     <th>Nome</th>
                     <th>Descrição</th>
-                    <th>Quantidade em Estoque</th>
-                    <th>Preço</th>
-                    <th>Ações</th>
+                    <th>Quantidade</th>
+                    <th>Valor Unitário</th>
                 </tr>
-                <?php foreach($produtos as $produto): ?>
-                <tr>
-                    <td><?= htmlspecialchars($produto['id_produto']) ?></td>
-                    <td><?= htmlspecialchars($produto['nome_prod']) ?></td>
-                    <td><?= htmlspecialchars($produto['descricao']) ?></td>
-                    <td><?= htmlspecialchars($produto['qtde']) ?></td>
-                    <td><?= htmlspecialchars($produto['valor_unit']) ?></td>
-
-                    <td>
-                        <a href="alterar_produto.php?id=<?= htmlspecialchars($produto['id_produto']) ?>">Alterar</a>
-
-                        <a href="excluir_produto.php?id=<?= htmlspecialchars($produto['id_produto']) ?>" 
-                        onclick="return confirm('Tem certeza que deseja excluir este produto?')">Excluir</a>
-                    </td>
-                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($produtos as $produto): ?>
+                    <tr>
+                        <td><?= htmlspecialchars($produto['id_produto']) ?></td>
+                        <td><?= htmlspecialchars($produto['nome_prod']) ?></td>
+                        <td><?= htmlspecialchars($produto['descricao']) ?></td>
+                        <td><?= htmlspecialchars($produto['qtde']) ?></td>
+                        <td>R$ <?= number_format($produto['valor_unit'], 2, ',', '.') ?></td>
+                    </tr>
                 <?php endforeach; ?>
-            </table>
-        <?php else: ?>
-            <p>Nenhum produto encontrado.</p>
-        <?php endif; ?>
-        
-        <a href="principal.php">Voltar</a>    
-    </body>
+            </tbody>
+        </table>
+    <?php else: ?>
+        <p class="nenhum">Nenhum produto encontrado.</p>
+    <?php endif; ?>
+</body>
 </html>
