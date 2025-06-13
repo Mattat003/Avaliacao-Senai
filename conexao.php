@@ -4,7 +4,7 @@
 // $host: Define o endereço do servidor onde o banco de dados está hospedado.
 // 'localhost' significa que o banco de dados está rodando na mesma máquina
 // que o servidor web (onde o PHP está sendo executado).
-$host = 'localhost:3307';
+$host = 'localhost';
 
 // $dbname: Define o nome do banco de dados ao qual queremos nos conectar.
 // Neste caso, o banco de dados se chama 'senai_login'.
@@ -18,7 +18,7 @@ $user = 'root';
 // $pass: Define a senha para o usuário do banco de dados.
 // '' (uma string vazia) significa que não há senha configurada para o usuário 'root'.
 // Isso é comum em configurações locais de desenvolvimento, mas **altamente inseguro** para servidores de produção.
-$pass = 'root';
+$pass = '';
 
 // O bloco try...catch é usado para tratamento de erros.
 // Se algo der errado ao tentar conectar ao banco de dados (dentro do 'try'),
