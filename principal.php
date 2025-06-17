@@ -96,8 +96,5 @@
             </li>
         </ul>
     </nav>
-    <div class="gif">
-        <img src="tenna.gif" alt="Senhor (AN)Tenna" title="Senhor (AN)Tenna = Feito por Matheus Leal">
-    </div>
 </body>
 </html>
