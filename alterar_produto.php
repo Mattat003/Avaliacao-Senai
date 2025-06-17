@@ -16,7 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (!empty($_POST['busca_produto'])) {
         $busca = trim($_POST['busca_produto']);
 
-        // Verifica se a busca é um número (ID) ou um nome
+        // Verifica se a busca é um número(ID) ou um nome
         if (is_numeric($busca)) {
             $sql = "SELECT * FROM produto WHERE id_produto = :busca";
             $stmt = $pdo->prepare($sql);
@@ -44,8 +44,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Alterar Usuário</title>
     <link rel="stylesheet" href="estilo.css">
-    
-    <!-- Certifique-se de que o JavaScript está sendo carregado corretamente -->
     <script src="scripts.js"></script>
     <script src="ValidaCampos.js"></script>
 </head>
@@ -56,15 +54,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <form action="alterar_produto.php" method="POST">
         <label for="busca_produto">Digite o ID ou Nome do produto:</label>
         <input type="text" id="busca_produto" name="busca_produto" required onkeyup="buscarSugestoes()">
-        
-        <!-- Div para exibir sugestões de produtos -->
-        <div id="sugestoes"></div>
-        
+                
         <button type="submit">Buscar</button>
     </form>
 
     <?php if ($produto): ?>
-        <!-- Formulário para alterar produto -->
+        <!-- Formulário para alterar o produto -->
         <form action="processa_alteracao_produto.php" method="POST">
             <input type="hidden" name="id_produto" value="<?= htmlspecialchars($produto['id_produto']) ?>">
 

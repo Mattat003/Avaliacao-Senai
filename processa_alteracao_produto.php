@@ -10,8 +10,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     if ($id_produto && $pdo) {
         try {
-            $sql = "UPDATE produto 
-                    SET nome_prod = :nome_prod, descricao = :descricao, qtde = :qtde, valor_unit = :valor_unit 
+            $sql = "UPDATE produto SET nome_prod = :nome_prod, descricao = :descricao, qtde = :qtde, valor_unit = :valor_unit 
                     WHERE id_produto = :id_produto";
 
             $stmt = $pdo->prepare($sql);

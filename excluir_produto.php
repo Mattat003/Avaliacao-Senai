@@ -8,7 +8,6 @@ if ($_SESSION['perfil'] != 1 && $_SESSION['perfil'] != 3) {
     exit();
 }
 
-// Inicializa variável para armazenar produtos
 $produtos = [];
 
 // Busca todos os produtos cadastrados em ordem alfabética
@@ -39,17 +38,17 @@ $produtos = [];
 try {
     if (!empty($busca)) {
         if (ctype_digit($busca)) {
-            // Se for número puro, buscar apenas por ID
+            // Se for número, buscar apenas por ID
             $stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = :id");
             $stmt->bindValue(':id', (int)$busca, PDO::PARAM_INT);
         } else {
-            // Se for texto, buscar por nome (sem tocar no ID)
+            // Se for texto, buscar por nome
             $stmt = $pdo->prepare("SELECT * FROM produto WHERE nome_prod LIKE :nome");
             $stmt->bindValue(':nome', '%' . $busca . '%');
         }
         $stmt->execute();
     } else {
-        // Sem busca: mostrar todos
+        // Sem input: = mostrar todos os produtos
         $stmt = $pdo->query("SELECT * FROM produto");
     }
 
