@@ -32,6 +32,31 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         echo "<script>alert('Erro ao excluir produto!');</script>";
     }
 }
+
+$busca = $_GET['busca'] ?? '';
+$produtos = [];
+
+try {
+    if (!empty($busca)) {
+        if (ctype_digit($busca)) {
+            // Se for número puro, buscar apenas por ID
+            $stmt = $pdo->prepare("SELECT * FROM produto WHERE id_produto = :id");
+            $stmt->bindValue(':id', (int)$busca, PDO::PARAM_INT);
+        } else {
+            // Se for texto, buscar por nome (sem tocar no ID)
+            $stmt = $pdo->prepare("SELECT * FROM produto WHERE nome_prod LIKE :nome");
+            $stmt->bindValue(':nome', '%' . $busca . '%');
+        }
+        $stmt->execute();
+    } else {
+        // Sem busca: mostrar todos
+        $stmt = $pdo->query("SELECT * FROM produto");
+    }
+
+    $produtos = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Erro ao buscar produtos: " . $e->getMessage();
+}
 ?>
 
 <!DOCTYPE html>
@@ -44,6 +69,10 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 <body>
     <h2>Excluir Produto</h2>
     <a class="btn-voltar" href="principal.php">Voltar</a>
+    <form method="GET" action="excluir_produto.php">
+        <input type="text" name="busca" placeholder="Digite o ID ou nome do produto..." value="<?= htmlspecialchars($busca) ?>">
+        <input type="submit" value="Buscar">
+    </form>
     <?php if (!empty($produtos)): ?>
         <table border="1">
             <tr>
