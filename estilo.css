@@ -399,7 +399,7 @@ tr:hover {
 
 /* Container para GIFs no canto inferior direito */
 .gif {
-    position: fixed;
+    position:fixed;
     right: 20px;
     bottom: 20px;
     display: flex;
