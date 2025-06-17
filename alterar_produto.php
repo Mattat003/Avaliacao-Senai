@@ -46,7 +46,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <title>Alterar Usuário</title>
     <link rel="stylesheet" href="estilo.css">
-    <script src="scripts.js"></script>
     <script src="ValidaCampos.js"></script>
 </head>
 <body>
